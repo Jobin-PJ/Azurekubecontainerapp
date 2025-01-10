@@ -16,14 +16,6 @@
     name     = "kube"
     location = "East US"
   }
-
-    #Declarationofstatefilestorage
-  backend "azurerm" {
-    resource_group_name   = "kube"
-    storage_account_name  = "terastorage78956"
-    container_name        = "tfstate"
-    key                   = "terraform.tfstate"
-  }
   
   # Declare the Virtual Network
   resource "azurerm_virtual_network" "r-vnet" {
