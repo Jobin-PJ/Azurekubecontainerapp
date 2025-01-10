@@ -40,6 +40,6 @@ jobs:
     
     # Container build and push to a Azure Container registry (ACR)
     - run: |
-        docker buildx build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/{{ env.IMAGE_NAME }}:${{ github.sha }}
-        docker push ${{ env.REGISTRY_NAME }}.azurecr.io/{{ env.IMAGE_NAME }}:${{ github.sha }}
+        docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        docker push ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
     
