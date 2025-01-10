@@ -1,0 +1,38 @@
+# This workflow will build a docker container, publish it to Azure Container Registry, and deploy it to Azure Kubernetes Service.
+#
+# To configure this workflow:
+#
+# 1. Set up the following secrets in your workspace: 
+#     a. REGISTRY_USERNAME with ACR username
+#     b. REGISTRY_PASSWORD with ACR Password
+#     c. AZURE_CREDENTIALS with the output of `az ad sp create-for-rbac --sdk-auth`
+#
+# 2. Change the values for the REGISTRY_NAME, CLUSTER_NAME, CLUSTER_RESOURCE_GROUP and NAMESPACE environment variables (below).
+
+on: [push]
+
+permissions:
+  id-token: write  # Allow GitHub Actions to request an ID token
+  contents: read   # Allow reading repository contents
+# Environment variables available to all jobs and steps in this workflow
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: "1.5.0"  # Set your desired Terraform version
+        
+   # Log into Azure using the service principal credentials
+    - name: 'Login to Azure'
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
