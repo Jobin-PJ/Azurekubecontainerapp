@@ -14,7 +14,7 @@
   #DeclaretheResourceGroupfirst
   resource "azurerm_resource_group" "r-grp" {
     name     = "kube"
-    location = "East US"
+    location = "eastus"
   }
   
   # Declare the Virtual Network
