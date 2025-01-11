@@ -79,14 +79,15 @@ jobs:
         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       
-    - uses: azure/aks-set-context@v1
+    - name: Set AKS context
+      uses: azure/aks-set-context@v2
       with:
         cluster-name: ${{ env.CLUSTER_NAME }}
         resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
         client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
         client-secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+        subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
         tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         
       env:
         REGISTRY_NAME: kubereg12
