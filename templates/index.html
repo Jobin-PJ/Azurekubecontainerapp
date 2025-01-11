@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Travel Booking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakeMyTrip Clone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0056b3;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            padding: 2rem;
+        }
+        .search-box {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        .search-box input, .search-box button {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .search-box button {
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .search-box button:hover {
+            background-color: #003f7f;
+        }
+        .results {
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to MakeMyTrip</h1>
-    <p>Your one-stop destination for all your travel needs.</p>
+    <header>
+        <h1>MakeMyTrip Clone</h1>
+    </header>
+    <div class="container">
+        <div class="search-box">
+            <h2>Search Flights</h2>
+            <form method="POST" action="/search">
+                <input type="text" name="from" placeholder="From" required>
+                <input type="text" name="to" placeholder="To" required>
+                <input type="date" name="departure" required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        {% if results %}
+        <div class="results">
+            <h3>Search Results</h3>
+            <p>{{ results }}</p>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
