@@ -6,7 +6,7 @@ permissions:
 # Environment variables available to all jobs and steps in this workflow
 env:
   REGISTRY_NAME: kubereg12
-  CLUSTER_NAME: aks-cluster-my
+  CLUSTER_NAME: kubeaks-cluster
   CLUSTER_RESOURCE_GROUP: kube
   NAMESPACE: aks-pj
   IMAGE_NAME: pj-app
@@ -89,11 +89,6 @@ jobs:
         subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
         tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
         
-      env:
-        REGISTRY_NAME: kubereg12
-        CLUSTER_NAME: aks-cluster-my
-        CLUSTER_RESOURCE_GROUP: kube
-        NAMESPACE: aks-pj
     
     # Create namespace if doesn't exist
     - run: |
