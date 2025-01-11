@@ -58,6 +58,16 @@ jobs:
       working-directory: terraform
       env:
         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+
+    -name: "Terraform Import Resource Group"
+      id: import
+      run: terraform import azurerm_resource_group.r-grp /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.CLUSTER_RESOURCE_GROUP }}
+      working-directory: terraform
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
        
     - name: "Terraform Plan"
       id: plan
