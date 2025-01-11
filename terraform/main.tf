@@ -33,8 +33,8 @@
   }
   
   # Declare the Kubernetes Cluster
-  resource "azurerm_kubernetes_cluster" "aks-cluster" {
-    name                = "kubeaks-cluster"
+  resource "azurerm_kubernetes_cluster" "aks-cluster1" {
+    name                = "kubeaks-cluster1"
     location            = azurerm_resource_group.r-grp.location
     resource_group_name = azurerm_resource_group.r-grp.name
     dns_prefix          = "aksdns"
