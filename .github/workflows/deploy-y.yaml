@@ -6,7 +6,7 @@ permissions:
 # Environment variables available to all jobs and steps in this workflow
 env:
   REGISTRY_NAME: kubereg12
-  CLUSTER_NAME: kubeaks-cluster
+  CLUSTER_NAME: kubeaks-cluster1
   CLUSTER_RESOURCE_GROUP: kube
   NAMESPACE: aks-pj
   IMAGE_NAME: pj-app
