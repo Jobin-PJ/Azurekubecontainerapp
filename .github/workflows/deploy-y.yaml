@@ -58,16 +58,6 @@ jobs:
       working-directory: terraform
       env:
         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-      
-    - name: "Terraform Import Resource Group"
-      id: import
-      run: terraform import azurerm_resource_group.r-grp /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.CLUSTER_RESOURCE_GROUP }}
-      working-directory: terraform
-      env:
-        ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
        
     - name: "Terraform Plan"
       id: plan
@@ -88,5 +78,52 @@ jobs:
         ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+    - uses: azure/aks-set-context@v1
+      with:
+        cluster-name: ${{ env.CLUSTER_NAME }}
+        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+        clientId: ${{ secrets.AZURE_AD_CLIENT_ID }}
+        clientSecret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        tenantId: ${{ secrets.AZURE_AD_TENANT_ID }}
+        
+      env:
+        REGISTRY_NAME: kubereg12
+        CLUSTER_NAME: aks-cluster-my
+        CLUSTER_RESOURCE_GROUP: kube
+        NAMESPACE: aks-pj
+    
+    # Create namespace if doesn't exist
+    - run: |
+        kubectl create namespace ${{ env.NAMESPACE }} --dry-run -o json | kubectl apply -f -
+    
+    # Create imagepullsecret for Azure Container registry (ACR)
+    - uses: azure/k8s-create-secret@v1
+      with:
+        container-registry-url: ${{ env.REGISTRY_NAME }}.azurecr.io
+        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        secret-name: ${{ env.REGISTRY_NAME }}-registry-connection
+        namespace: ${{ env.NAMESPACE }}
+    
+    # Deploy app to AKS
+    - name: Replace variables in deployment file
+      run: |
+        # Replace variables using sed
+        sed -e "s|{{REGISTRY_NAME}}|${{ env.REGISTRY_NAME }}|g" \
+            -e "s|{{GITHUB_SHA}}|${{ github.sha }}|g" \
+            k8/deployment.yml > k8/deployment-substituted.yml
+            
+    # Deploy app to AKS
+    - uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+          k8/deployment-substituted.yml
+        images: |
+          ${{ env.REGISTRY_NAME }}.azurecr.io/mygradezimage:${{ github.sha }}
+        imagepullsecrets: |
+          ${{ env.REGISTRY_NAME }}-registry-connection
+        namespace: ${{ env.NAMESPACE }}
     
 
