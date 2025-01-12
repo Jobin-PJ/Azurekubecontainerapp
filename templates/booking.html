@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Flight</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0056b3;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            padding: 2rem;
+        }
+        .booking-box {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        .booking-box input, .booking-box button {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .booking-box button {
+            background-color: #0056b3;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .booking-box button:hover {
+            background-color: #003f7f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MakeMyTrip Clone</h1>
+    </header>
+    <div class="container">
+        <div class="booking-box">
+            <h2>Booking {{ flight }}</h2>
+            <form>
+                <input type="text" placeholder="Name" required>
+                <input type="text" placeholder="Passport Number" required>
+                <input type="date" placeholder="Date of Birth" required>
+                <button type="submit">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
