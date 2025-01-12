@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0056b3;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            padding: 2rem;
+        }
+        .results ul {
+            list-style: none;
+            padding: 0;
+        }
+        .results li {
+            background-color: #fff;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+        }
+        .results a {
+            text-decoration: none;
+            color: #0056b3;
+        }
+        .back {
+            background-color: #0056b3;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .back:hover {
+            background-color: #003f7f;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MakeMyTrip Clone</h1>
+    </header>
+    <div class="container">
+        <div class="results">
+            <h2>Flight Results</h2>
+            <ul>
+                {% for flight in flights %}
+                <li>
+                    {{ flight.flight }} from {{ flight.from }} to {{ flight.to }} on {{ flight.departure }} - {{ flight.price }}
+                    <a href="{{ url_for('book', flight=flight) }}">Book</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="/" class="back">Back to Search</a>
+        </div>
+    </div>
+</body>
+</html>
